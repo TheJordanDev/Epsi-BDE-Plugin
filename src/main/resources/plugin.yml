@@ -1,0 +1,9 @@
+name: Epsi
+version: '${project.version}'
+main: fr.thejordan.epsi.Epsi
+api-version: 1.19
+commands:
+  tpa:
+    description: "Tpa"
+  rtp:
+    description: "Rtp"
