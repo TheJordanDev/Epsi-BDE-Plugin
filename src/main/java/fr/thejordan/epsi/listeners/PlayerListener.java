@@ -2,7 +2,6 @@ package fr.thejordan.epsi.listeners;
 
 import fr.thejordan.epsi.Epsi;
 import fr.thejordan.epsi.helpers.MessageFactory;
-import net.kyori.adventure.text.Component;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
