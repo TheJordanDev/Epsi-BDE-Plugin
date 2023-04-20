@@ -7,3 +7,6 @@ commands:
     description: "Tpa"
   rtp:
     description: "Rtp"
+  vanish:
+    description: "Vanish"
+    permission: epsi.vanish

@@ -42,17 +42,22 @@ public class MessageFactory {
     }
 
     public static TextComponent tpaHelper() {
-        TextComponent header = Component.text("§7§l-=-=-=-=-=-=-=-");
-        TextComponent one = Component.text("§6/tpa §3<player>").hoverEvent(HoverEvent.showText(Component.text("§eEnvoie une demande à <player>")));
-        TextComponent two = Component.text("§6/tpa §3<accept/deny/ignore>").hoverEvent(HoverEvent.showText(Component.text("§eAccepte/Refuse/Ignore la dernière demande.")));
-        TextComponent three = Component.text("§6/tpa §3<accept/deny/ignore> <player>").hoverEvent(HoverEvent.showText(Component.text("§eAccepte/Refuse/Ignore la demande de <player>")));
-        TextComponent footer = Component.text("§7§l-=-=-=-=-=-=-=-");
         return Component.newline()
-                .append(header).append(Component.newline())
-                .append(one).append(Component.newline())
-                .append(two).append(Component.newline())
-                .append(three).append(Component.newline())
-                .append(footer).append(Component.newline());
+            .append(Component.text("§7§l-=-=-=-=-=-=-=-")).append(Component.newline())
+            .append(Component.text("§6/tpa §3<player>").hoverEvent(HoverEvent.showText(Component.text("§eEnvoie une demande à <player>")))).append(Component.newline())
+            .append(Component.text("§6/tpa §3<accept/deny/ignore>").hoverEvent(HoverEvent.showText(Component.text("§eAccepte/Refuse/Ignore la dernière demande.")))).append(Component.newline())
+            .append(Component.text("§6/tpa §3<accept/deny/ignore> <player>").hoverEvent(HoverEvent.showText(Component.text("§eAccepte/Refuse/Ignore la demande de <player>")))).append(Component.newline())
+            .append(Component.text("§7§l-=-=-=-=-=-=-=-")).append(Component.newline());
+
+    }
+
+    public static TextComponent vanishHelper() {
+        return Component.newline()
+            .append(Component.text("§7§l-=-=-=-=-=-=-=-§r")).append(Component.newline())
+            .append(Component.text("§6/vanish").hoverEvent(HoverEvent.showText(Component.text("§eAlterne ton état de vanish de manière silencieuse")))).append(Component.newline())
+            .append(Component.text("§6/vanish toggle <true/false>").hoverEvent(HoverEvent.showText(Component.text("§eAlterne ton état de vanish de manière silencieuse ou non dépendamment du boolean.")))).append(Component.newline())
+            .append(Component.text("§6/vanish auto").hoverEvent(HoverEvent.showText(Component.text("§eAlterne l'état de vanish que tu as à chaques connexions.")))).append(Component.newline())
+            .append(Component.text("§7§l-=-=-=-=-=-=-=-")).append(Component.newline());
     }
 
 

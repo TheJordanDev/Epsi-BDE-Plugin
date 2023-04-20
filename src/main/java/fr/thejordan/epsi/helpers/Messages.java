@@ -35,6 +35,8 @@ public class Messages {
         return new Messages("§3§l"+player.getName()+" §r§eveut ce téléporter à toi !");
     }
 
+    //-=-=-=-=-=-= TPA =-=-=-=-=-=-
+
     //ACCEPT
     public static Messages YOU_ACCEPTED_REQUEST = new Messages("§6Demande acceptée.");
     public static Messages REQUEST_ACCEPTED(Player player){
@@ -61,4 +63,8 @@ public class Messages {
         return new Messages("§cLe joueur §3§l"+name+" §r§cn'éxiste pas ou ne t'a pas envoyer d'invitation !");
     }
     public static Messages PLEASE_WAIT_FOR_EXPIRY = new Messages("§cVeuillez attendre que votre dernière demande expire ou que la personne réponde !");
+
+    // -=-=-=-=-=-= Vanish =-=-=-=-=-=-
+    public static Messages VALID_BOOL = new Messages("§cVeuillez entrer un boolean valide <true/false>");
+
 }
