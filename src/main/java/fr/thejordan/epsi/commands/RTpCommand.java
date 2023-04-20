@@ -39,7 +39,7 @@ public class RTpCommand implements CommandExecutor, TabCompleter {
         destination.add(x, highest+100, z);
         destination.setYaw(player.getLocation().getYaw());
         destination.setPitch(player.getLocation().getPitch());
-        player.teleport(destination);
+        player.teleportAsync(destination);
         return false;
     }
 
