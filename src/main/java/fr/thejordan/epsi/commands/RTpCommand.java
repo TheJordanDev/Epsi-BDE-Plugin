@@ -1,7 +1,7 @@
 package fr.thejordan.epsi.commands;
 
 import fr.thejordan.epsi.Epsi;
-import fr.thejordan.epsi.helpers.TpaUtils;
+import fr.thejordan.epsi.helpers.Utils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -33,8 +33,8 @@ public class RTpCommand implements CommandExecutor, TabCompleter {
                 )
         );
         Location destination = Epsi.instance().getSpawnCenter().clone();
-        int x = TpaUtils.getRandomNumberInRange(Epsi.instance().getRtpRay()*-1,Epsi.instance().getRtpRay());
-        int z = TpaUtils.getRandomNumberInRange(Epsi.instance().getRtpRay()*-1,Epsi.instance().getRtpRay());
+        int x = Utils.getRandomNumberInRange(Epsi.instance().getRtpRay()*-1,Epsi.instance().getRtpRay());
+        int z = Utils.getRandomNumberInRange(Epsi.instance().getRtpRay()*-1,Epsi.instance().getRtpRay());
         int highest = destination.getWorld().getHighestBlockAt(x,z).getY();
         destination.add(x, highest+100, z);
         destination.setYaw(player.getLocation().getYaw());

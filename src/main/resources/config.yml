@@ -5,3 +5,5 @@ spawnCenter:
   world: world
 rtp:
   ray: 500
+tpa:
+  expire: 30

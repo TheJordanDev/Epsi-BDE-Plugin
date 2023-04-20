@@ -1,39 +1,35 @@
 package fr.thejordan.epsi;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import fr.thejordan.epsi.commands.RTpCommand;
 import fr.thejordan.epsi.commands.TpaCommand;
 import fr.thejordan.epsi.listeners.PlayerListener;
+import fr.thejordan.epsi.object.TpaManager;
+import fr.thejordan.epsi.scheduler.TpaExpireScheduler;
 import lombok.Getter;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.*;
 
 public final class Epsi extends JavaPlugin {
 
     private static Epsi instance;
     public static Epsi instance() { return instance; }
 
-    @Getter
-    private Location spawnCenter;
+    @Getter private TpaManager tpaManager;
 
-    @Getter
-    private Integer rtpRay;
+    @Getter private TpaExpireScheduler expireScheduler;
 
-    @Getter
-    private final Map<UUID, List<UUID>> tpaRequests = new HashMap<>();
+    @Getter private Integer tpaExpiry;
+    @Getter private Location spawnCenter;
+    @Getter private Integer rtpRay;
 
     @Override
     public void onEnable() {
         instance = this;
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!tpaRequests.containsKey(player.getUniqueId()))
-                tpaRequests.put(player.getUniqueId(),new ArrayList<>());
-        }
+        this.tpaManager = new TpaManager();
+        this.expireScheduler = new TpaExpireScheduler();
+        this.expireScheduler.runTaskTimer(this, 0L, 20L);
         new TpaCommand().register(this);
         new RTpCommand().register(this);
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
@@ -44,6 +40,7 @@ public final class Epsi extends JavaPlugin {
                 getConfig().getInt("spawnCenter.z",0)
         );
         rtpRay = getConfig().getInt("rtp.ray",500);
+        tpaExpiry = getConfig().getInt("tpa.expire", 30);
         saveDefaultConfig();
     }
 

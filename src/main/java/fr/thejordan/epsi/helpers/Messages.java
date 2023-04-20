@@ -1,44 +1,64 @@
 package fr.thejordan.epsi.helpers;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+
 import org.bukkit.entity.Player;
+
+import lombok.Getter;
 
 public class Messages {
 
+    @Getter
+    private final TextComponent message;
+
+    public Messages(String message) {
+        this(Component.text(message));
+    }
+
+    public Messages(TextComponent message) {
+        this.message = message;
+    }
+
+    public void send(Player player) {
+        player.sendMessage(message);
+    }
+
     //SYSTEM
-    public static String PLAYER_JOINED(Player player) {
-        return "§7[§a+§7] §6§l"+player.getName();
+    public static Messages PLAYER_JOINED(Player player) {
+        return new Messages("§7[§a+§7] §6§l"+player.getName());
     }
-    public static String PLAYER_LEFT(Player player) {
-        return "§7[§c-§7] §6§l"+player.getName();
+    public static Messages PLAYER_LEFT(Player player) {
+        return new Messages("§7[§c-§7] §6§l"+player.getName());
     }
-    public static String PLAYER_WANTS_TO_TP(Player player) {
-        return "§3§l"+player.getName()+" §r§eveut ce téléporter à toi !";
+    public static Messages PLAYER_WANTS_TO_TP(Player player) {
+        return new Messages("§3§l"+player.getName()+" §r§eveut ce téléporter à toi !");
     }
 
     //ACCEPT
-    public static String YOU_ACCEPTED_REQUEST = "§6Demande acceptée.";
-    public static String REQUEST_ACCEPTED(Player player){
-        return "§3§l"+player.getName()+" §r§aa accepter ta demande.";
+    public static Messages YOU_ACCEPTED_REQUEST = new Messages("§6Demande acceptée.");
+    public static Messages REQUEST_ACCEPTED(Player player){
+        return new Messages("§3§l"+player.getName()+" §r§aa accepter ta demande.§r\n§eVous allez être téléporté dans 5 secondes...");
     }
 
     //DENY
-    public static String YOU_DENIED_REQUEST = "§6Demande refusée.";
-    public static String REQUEST_DENIED(Player player){
-        return "§3§l"+player.getName()+" §r§ca refuser ta demande.";
+    public static Messages YOU_DENIED_REQUEST = new Messages("§6Demande refusée.");
+    public static Messages REQUEST_DENIED(Player player){
+        return new Messages("§3§l"+player.getName()+" §r§ca refuser ta demande.");
     }
 
     //IGNORE
-    public static String YOU_IGNORED_REQUEST = "§6Demande ignorée.";
+    public static Messages YOU_IGNORED_REQUEST = new Messages("§6Demande ignorée.");
 
     //GLOBALE
-    public static String NO_RECENT_REQUEST = "§cAucune demande récente.";
-    public static String TELEPORTED_SOON = "§eVous allez être téléporté dans 5 secondes...";
-    public static String SPECIFY_PLAYER = "§6Veuillez préciser la demande de quel joueur vous voulez accepter.";
-    public static String ALREADY_ASKED(Player target) {
-        return "§cVous avez déjà demander à §3§l"+target.getName()+" §r§c!";
+    public static Messages NO_RECENT_REQUEST = new Messages("§cAucune demande récente.");
+    public static Messages SPECIFY_PLAYER = new Messages("§6Veuillez préciser à quel joueur vous voulez vous téléporter.");
+    public static Messages ALREADY_ASKED(Player target) {
+        return new Messages("§cVous avez déjà demander à §3§l"+target.getName()+" §r§c!");
     }
-    public static String PLAYER_NEVER_SENT_INVITE(Player player, String _name) {
+    public static Messages PLAYER_NEVER_SENT_INVITE(Player player, String _name) {
         String name = (player != null) ? player.getName() : _name;
-        return "§cLe joueur §3§l"+name+" §r§cn'éxiste pas ou ne ta pas envoyer d'inviation !";
+        return new Messages("§cLe joueur §3§l"+name+" §r§cn'éxiste pas ou ne t'a pas envoyer d'invitation !");
     }
+    public static Messages PLEASE_WAIT_FOR_EXPIRY = new Messages("§cVeuillez attendre que votre dernière demande expire ou que la personne réponde !");
 }

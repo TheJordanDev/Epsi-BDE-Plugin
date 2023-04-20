@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 public class MessageFactory {
 
     public static TextComponent tpaNotification(Player origin) {
-        TextComponent wantsToTp = Component.text(Messages.PLAYER_WANTS_TO_TP(origin));
+        TextComponent wantsToTp = Messages.PLAYER_WANTS_TO_TP(origin).getMessage();
         TextComponent accept = Component
                 .text("[ACCEPTER]")
                 .color(TextColor.color(0, 153, 0))
@@ -34,11 +34,11 @@ public class MessageFactory {
     }
 
     public static TextComponent joinMessage(Player player) {
-        return Component.text(Messages.PLAYER_JOINED(player));
+        return Messages.PLAYER_JOINED(player).getMessage();
     }
 
     public static TextComponent leaveMessage(Player player) {
-        return Component.text(Messages.PLAYER_LEFT(player));
+        return Messages.PLAYER_LEFT(player).getMessage();
     }
 
     public static TextComponent tpaHelper() {
