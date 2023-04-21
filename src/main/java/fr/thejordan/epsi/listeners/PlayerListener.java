@@ -48,6 +48,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void serverPinEvent(ServerListPingEvent event) {
         if (event instanceof PaperServerListPingEvent psl) {
+            psl.setNumPlayers(psl.getNumPlayers()-VanishManager.instance().getVanished().size());
             psl.getPlayerSample().removeIf((pp)->VanishManager.isVanished(pp.getId()));
         }
     }

@@ -55,7 +55,7 @@ public class MessageFactory {
         return Component.newline()
             .append(Component.text("§7§l-=-=-=-=-=-=-=-§r")).append(Component.newline())
             .append(Component.text("§6/vanish").hoverEvent(HoverEvent.showText(Component.text("§eAlterne ton état de vanish de manière silencieuse")))).append(Component.newline())
-            .append(Component.text("§6/vanish toggle <true/false>").hoverEvent(HoverEvent.showText(Component.text("§eAlterne ton état de vanish de manière silencieuse ou non dépendamment du boolean.")))).append(Component.newline())
+            .append(Component.text("§6/vanish <silent/announce>").hoverEvent(HoverEvent.showText(Component.text("§eAlterne ton état de vanish de manière silencieuse ou non")))).append(Component.newline())
             .append(Component.text("§6/vanish auto").hoverEvent(HoverEvent.showText(Component.text("§eAlterne l'état de vanish que tu as à chaques connexions.")))).append(Component.newline())
             .append(Component.text("§7§l-=-=-=-=-=-=-=-")).append(Component.newline());
     }

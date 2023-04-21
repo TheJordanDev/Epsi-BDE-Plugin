@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import fr.thejordan.epsi.Epsi;
 import fr.thejordan.epsi.helpers.MessageFactory;
+import fr.thejordan.epsi.helpers.Messages;
 import lombok.Getter;
 
 public class VanishManager {
@@ -37,10 +38,12 @@ public class VanishManager {
     }
 
     public void autoVanish(Player player) {
+        Messages.VANISH_AUTO_ENABLED.send(player);
         autoVanished.add(player.getUniqueId());
     }
 
     public void autoUnVanish(Player player) {
+        Messages.VANISH_AUTO_DISABLED.send(player);
         autoVanished.remove(player.getUniqueId());
     }
 
@@ -51,6 +54,7 @@ public class VanishManager {
     public void unVanish(Player player, boolean silent) {
         vanished.remove(player.getUniqueId());
         Bukkit.getOnlinePlayers().forEach((p)->p.showPlayer(Epsi.instance(), player));
+        Messages.UNVANISHED.send(player);
         if (!silent)
             Bukkit.broadcast(MessageFactory.joinMessage(player));
     }
@@ -58,6 +62,7 @@ public class VanishManager {
     public void vanish(Player player, boolean silent) {
         vanished.add(player.getUniqueId());
         Bukkit.getOnlinePlayers().forEach((p)->p.hidePlayer(Epsi.instance(), player));
+        Messages.VANISHED.send(player);
         if (!silent)
             Bukkit.broadcast(MessageFactory.leaveMessage(player));
     }

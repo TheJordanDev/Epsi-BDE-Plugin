@@ -65,6 +65,12 @@ public class Messages {
     public static Messages PLEASE_WAIT_FOR_EXPIRY = new Messages("§cVeuillez attendre que votre dernière demande expire ou que la personne réponde !");
 
     // -=-=-=-=-=-= Vanish =-=-=-=-=-=-
+    public static Messages VANISHED = new Messages("§aVous êtes maintenant vanish !");
+    public static Messages UNVANISHED = new Messages("§cVous êtes maintenant dévanish !");
+
+    public static Messages VANISH_AUTO_ENABLED = new Messages("§aL'auto vanish est activé, à votre prochaine connexion vous serez automatiquement en vanish !");
+    public static Messages VANISH_AUTO_DISABLED = new Messages("§cVous êtes maintenant dévanish !");
+
     public static Messages VALID_BOOL = new Messages("§cVeuillez entrer un boolean valide <true/false>");
 
 }
