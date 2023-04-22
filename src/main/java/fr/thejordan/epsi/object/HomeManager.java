@@ -31,7 +31,7 @@ public class HomeManager {
     }
 
     public static Optional<Location> loadHome(Player player) {
-        if (!player.getPersistentDataContainer().has(Keys.homeLocation, PersistentDataType.STRING)) Optional.empty();
+        if (!player.getPersistentDataContainer().has(Keys.homeLocation, PersistentDataType.STRING)) return Optional.empty();
         String _loc = player.getPersistentDataContainer().get(Keys.homeLocation, PersistentDataType.STRING);
         return Optional.of(Utils.stringToLocation(_loc));
         //return Optional.ofNullable(getHomes().getOrDefault(player.getUniqueId(), null));
