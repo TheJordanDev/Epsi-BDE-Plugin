@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 
 import fr.thejordan.epsi.helpers.Keys;
+import fr.thejordan.epsi.helpers.Messages;
 import fr.thejordan.epsi.helpers.Utils;
 import lombok.Getter;
 
@@ -38,7 +39,17 @@ public class HomeManager {
 
     public void setHome(Player player) {
         saveHome(player);
+        Messages.HOME_SET.send(player);
+    }
 
+    public void tpHome(Player player) {
+        Optional<Location> loc = loadHome(player);
+        if (loc.isEmpty()) {
+            Messages.NO_HOME_SET.send(player);
+            return;
+        }
+        Messages.HOME_TELEPORT.send(player);
+        player.teleportAsync(loc.get());
     }
 
 }

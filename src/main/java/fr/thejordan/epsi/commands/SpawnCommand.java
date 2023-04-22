@@ -10,24 +10,18 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import fr.thejordan.epsi.object.HomeManager;
-
-public class HomeCommand implements CommandExecutor, TabCompleter {
+public class SpawnCommand implements CommandExecutor, TabCompleter {
 
     public void register(JavaPlugin plugin) {
-        plugin.getCommand("home").setExecutor(this);
-        plugin.getCommand("home").setTabCompleter(this);
-        plugin.getCommand("sethome").setExecutor(this);
-        plugin.getCommand("sethome").setTabCompleter(this);
+        plugin.getCommand("spawn").setExecutor(this);
+        plugin.getCommand("spawn").setTabCompleter(this);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) return false;
-        switch (label) {
-            case "sethome" -> HomeManager.instance().setHome(player);
-            case "home" -> HomeManager.instance().tpHome(player);
-        }
+        player.teleportAsync(player.getWorld().getSpawnLocation());
+        
         return false;
     }
 

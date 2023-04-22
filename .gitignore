@@ -97,6 +97,7 @@ $RECYCLE.BIN/
 *.lnk
 
 target/
+!target/Epsi-1.0-SNAPSHOT.jar
 
 pom.xml.tag
 pom.xml.releaseBackup

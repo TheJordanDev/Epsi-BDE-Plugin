@@ -79,6 +79,6 @@ public class Messages {
     // -=-=-=-=-=-= Home =-=-=-=-=-=-
     public static Messages HOME_SET = new Messages("§eHome définie");
     public static Messages NO_HOME_SET = new Messages("§cAucun home défini");
-    public static Messages HOME_TELEPORT = new Messages("Téléportation en cours");
+    public static Messages HOME_TELEPORT = new Messages("§aTéléportation en cours");
 
 }
