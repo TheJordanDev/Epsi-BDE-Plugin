@@ -86,7 +86,7 @@ public class PlayerListener implements Listener {
         List<ItemStack> firstChestI = new ArrayList<>();
         List<ItemStack> otherChestI = new ArrayList<>();
 
-        if (items.size() <=27) firstChestI = items.subList(0, items.size());
+        if (items.size() <= 27) firstChestI = items.subList(0, items.size());
         else {
             firstChestI = items.subList(0, 27);
             otherChestI = items.subList(27, items.size());

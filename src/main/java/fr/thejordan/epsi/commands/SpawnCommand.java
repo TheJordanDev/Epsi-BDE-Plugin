@@ -3,6 +3,7 @@ package fr.thejordan.epsi.commands;
 import java.util.Collections;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,7 +21,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) return false;
-        player.teleportAsync(player.getWorld().getSpawnLocation());
+        player.teleportAsync(Bukkit.getWorlds().get(0).getSpawnLocation());
         
         return false;
     }
