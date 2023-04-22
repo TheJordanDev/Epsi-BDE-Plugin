@@ -60,9 +60,9 @@ public class TpaCommand implements CommandExecutor, TabCompleter {
         TpaRequest request = null;
         if (args.length > 1) {
             Optional<Player> _target = Utils.getPlayer(args[1]);
-            if (_target.isEmpty()) { /*Blabla*/ return; }
+            if (_target.isEmpty()) { Messages.PLAYER_NEVER_SENT_INVITE(null, args[1]).send(player); return; }
             Optional<TpaRequest> lastRequest = TpaManager.instance().hasReceivedFrom(player, _target.get());
-            if (lastRequest.isEmpty()) { Messages.PLAYER_NEVER_SENT_INVITE(player, _target.get().getName()).send(player); return; }
+            if (lastRequest.isEmpty()) { Messages.PLAYER_NEVER_SENT_INVITE(_target.get(), "").send(player); return; }
             request = lastRequest.get();
         } else {
             Optional<TpaRequest> lastRequest = TpaManager.instance().getLastReceived(player.getUniqueId());

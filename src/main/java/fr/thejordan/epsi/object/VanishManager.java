@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import fr.thejordan.epsi.Epsi;
+import fr.thejordan.epsi.config.VanishConfig;
 import fr.thejordan.epsi.helpers.MessageFactory;
 import fr.thejordan.epsi.helpers.Messages;
 import lombok.Getter;
@@ -17,11 +18,15 @@ public class VanishManager {
     private static VanishManager instance;
     public static VanishManager instance() { return instance; }
 
+    @Getter private final VanishConfig config;
+
     @Getter private List<UUID> autoVanished = new ArrayList<>();
     @Getter private List<UUID> vanished = new ArrayList<>();
 
     public VanishManager() {
         instance = this;
+        config = new VanishConfig(Epsi.instance());
+        autoVanished = config.load();
     }
 
     public static boolean isVanished(Player player) { return isVanished(player.getUniqueId()); }

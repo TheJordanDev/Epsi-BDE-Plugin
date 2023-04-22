@@ -10,3 +10,9 @@ commands:
   vanish:
     description: "Vanish"
     permission: epsi.vanish
+  sethome:
+    description: "SetHome"
+  home:
+    description: "Home"
+  spawn:
+    description: "Spawn"

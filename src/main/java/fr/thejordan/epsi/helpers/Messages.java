@@ -37,6 +37,9 @@ public class Messages {
 
     //-=-=-=-=-=-= TPA =-=-=-=-=-=-
 
+    //SENT
+    public static Messages REQUEST_SENT = new Messages("§eVotre demande a été envoyée.");
+
     //ACCEPT
     public static Messages YOU_ACCEPTED_REQUEST = new Messages("§6Demande acceptée.");
     public static Messages REQUEST_ACCEPTED(Player player){
@@ -72,5 +75,10 @@ public class Messages {
     public static Messages VANISH_AUTO_DISABLED = new Messages("§cVous êtes maintenant dévanish !");
 
     public static Messages VALID_BOOL = new Messages("§cVeuillez entrer un boolean valide <true/false>");
+
+    // -=-=-=-=-=-= Home =-=-=-=-=-=-
+    public static Messages HOME_SET = new Messages("§eHome définie");
+    public static Messages NO_HOME_SET = new Messages("§cAucun home défini");
+    public static Messages HOME_TELEPORT = new Messages("§aTéléportation en cours");
 
 }

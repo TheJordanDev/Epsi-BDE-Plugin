@@ -45,6 +45,7 @@ public class TpaRequest {
 
     public void request() {
         if (from().isEmpty() || to().isEmpty()) return;
+        Messages.REQUEST_SENT.send(from().get());
         to().get().sendMessage(MessageFactory.tpaNotification(from().get()));
     }
 
@@ -57,7 +58,7 @@ public class TpaRequest {
 
         if (action != TpaAction.DENY) {
             if (action == TpaAction.ACCEPT) {
-                Messages.REQUEST_ACCEPTED(from().get()).send(to().get());
+                Messages.REQUEST_ACCEPTED(to().get()).send(from().get());
                 new BukkitRunnable() {
                     @Override
                     public void run() { from().get().teleport(to().get()); }
