@@ -6,6 +6,8 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextColor;
+
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class MessageFactory {
@@ -58,6 +60,13 @@ public class MessageFactory {
             .append(Component.text("§6/vanish <silent/announce>").hoverEvent(HoverEvent.showText(Component.text("§eAlterne ton état de vanish de manière silencieuse ou non")))).append(Component.newline())
             .append(Component.text("§6/vanish auto").hoverEvent(HoverEvent.showText(Component.text("§eAlterne l'état de vanish que tu as à chaques connexions.")))).append(Component.newline())
             .append(Component.text("§7§l-=-=-=-=-=-=-=-")).append(Component.newline());
+    }
+
+    public static TextComponent deathLocation(Location location) {
+        return Component.empty()
+            .append(Component.text(location.getBlockX())).append(Component.space())
+            .append(Component.text(location.getBlockY())).append(Component.space())
+            .append(Component.text(location.getBlockZ()));
     }
 
 
