@@ -16,3 +16,6 @@ commands:
     description: "Home"
   spawn:
     description: "Spawn"
+  epsi:
+    description: "Epsi"
+    permission: epsi.epsi

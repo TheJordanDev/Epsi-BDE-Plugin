@@ -9,6 +9,11 @@ public class Config {
     
     private static Config instance;
     public static Config instance() { return instance; }
+    public static void instance(Config edit) { 
+        instance.setTpaExpiry(edit.tpaExpiry); 
+        instance.setSpawnCenter(edit.spawnCenter); 
+        instance.setRtpRay(edit.rtpRay); 
+    }
 
     @Getter @Setter private Integer tpaExpiry;
     @Getter @Setter private Location spawnCenter;

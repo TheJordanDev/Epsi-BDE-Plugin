@@ -46,15 +46,7 @@ public class MainConfig extends AbstractConfigFile<Config> {
 
     @Override
     public Consumer<Config> saveProcess(YamlConfiguration configuration) {
-        return (config) -> {
-            configuration.set("rtp.ray", config.getRtpRay());
-            Location loc = config.getSpawnCenter();
-            configuration.set("spawnCenter.x", loc.getBlockX());
-            configuration.set("spawnCenter.y", loc.getBlockY());
-            configuration.set("spawnCenter.z", loc.getBlockZ());
-            configuration.set("spawnCenter.world", loc.getWorld().getName());
-            configuration.set("tpa.expire", config.getTpaExpiry());
-        };
+        return (config) -> {};
     }
 
 }

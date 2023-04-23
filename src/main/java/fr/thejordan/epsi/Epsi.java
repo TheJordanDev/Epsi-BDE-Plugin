@@ -1,7 +1,8 @@
 package fr.thejordan.epsi;
 
+import fr.thejordan.epsi.commands.EpsiCommand;
 import fr.thejordan.epsi.commands.HomeCommand;
-import fr.thejordan.epsi.commands.RTpCommand;
+import fr.thejordan.epsi.commands.RtpCommand;
 import fr.thejordan.epsi.commands.SpawnCommand;
 import fr.thejordan.epsi.commands.TpaCommand;
 import fr.thejordan.epsi.commands.VanishCommand;
@@ -58,9 +59,10 @@ public final class Epsi extends JavaPlugin {
         this.expireScheduler = new TpaExpireScheduler();
         this.expireScheduler.runTaskTimer(this, 0L, 20L);
         
+        new EpsiCommand().register(this);
         new SpawnCommand().register(this);
         new TpaCommand().register(this);
-        new RTpCommand().register(this);
+        new RtpCommand().register(this);
         new VanishCommand().register(this);
         new HomeCommand().register(this);
         
@@ -80,7 +82,6 @@ public final class Epsi extends JavaPlugin {
             player.getPersistentDataContainer().set(Keys.isVanished, PersistentDataType.BYTE, (byte)0);
         }
         getConfig().set("autoVanish", VanishManager.instance().getAutoVanished().stream().map((u)->u.toString()).toList());
-        
     }
 
 }

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class RTpCommand implements CommandExecutor, TabCompleter {
+public class RtpCommand implements CommandExecutor, TabCompleter {
 
     public void register(JavaPlugin plugin) {
         plugin.getCommand("rtp").setExecutor(this);
