@@ -20,7 +20,7 @@ jobs:
         run: mvn package
       - name: Get current time
         id: time
-        run: echo "::set-output name=time::$(TZ='France/Paris' date +'%d-%m-%Y %T')"
+        run: echo "time=$(TZ='France/Paris' date +'%d-%m-%Y %T')" >> $GITHUB_ENV
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
@@ -28,4 +28,4 @@ jobs:
           files: ./target/Epsi-1.0-SNAPSHOT.jar
           token: ${{ secrets.RELEASE_TOKEN }}
           tag_name: 'release'
-          name: ${{ steps.time.outputs.time }}
+          name: ${{ env.time }}
