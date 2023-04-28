@@ -93,4 +93,11 @@ public class Messages {
         else
             return new Messages("§c§lL'auto griefing est désactivé.");
     }
+
+    public static Messages PLAYER_HIDE_GRIEFING_MSG(boolean hidden) {
+        if (hidden)
+            return new Messages("§c§lVous ne verrez plus ce message.");
+        else
+            return new Messages("§a§lLa prochaine fois vous verrez ce message.");
+    }
 }

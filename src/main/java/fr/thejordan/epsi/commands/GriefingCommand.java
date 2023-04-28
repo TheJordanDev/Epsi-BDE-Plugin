@@ -27,10 +27,13 @@ public class GriefingCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) return false;
         if (args.length == 1 && args[0].equalsIgnoreCase("hideMessage")) {
-            if (Griefing.instance().hideMessage.contains(player.getUniqueId()))
+            if (Griefing.instance().hideMessage.contains(player.getUniqueId())) {
                 Griefing.instance().hideMessage.remove(player.getUniqueId());
-            else
+                Messages.PLAYER_HIDE_GRIEFING_MSG(false).send(player);
+            } else {
                 Griefing.instance().hideMessage.add(player.getUniqueId());
+                Messages.PLAYER_HIDE_GRIEFING_MSG(true).send(player);
+            }
             return false;
         }
         if (!player.hasPermission("epsi.griefing")) return true;
