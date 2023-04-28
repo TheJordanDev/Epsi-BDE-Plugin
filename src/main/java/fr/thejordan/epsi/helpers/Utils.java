@@ -13,6 +13,9 @@ import org.bukkit.GameRule;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import fr.thejordan.epsi.config.Griefing;
+import net.kyori.adventure.text.Component;
+
 public class Utils {
 
     public static int getRandomNumberInRange(int min, int max) {
@@ -91,11 +94,15 @@ public class Utils {
         return new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
     }
 
-    public static void toggleGriefing() {
-        boolean newValue = !Bukkit.getWorlds().get(0).getGameRuleValue(GameRule.MOB_GRIEFING);
-        if (newValue) Bukkit.broadcast(Messages.GRIEFING_ON().getMessage());
-        else Bukkit.broadcast(Messages.GRIEFING_OFF().getMessage());
-        Bukkit.getWorlds().get(0).setGameRule(GameRule.MOB_GRIEFING, newValue);
+    public static void toggleGriefing(boolean status) {
+        broadcastExcept(MessageFactory.griefingStatus(status), Griefing.instance().hideMessage);
+        Bukkit.getWorlds().get(0).setGameRule(GameRule.MOB_GRIEFING, status);
+    }
+
+    public static void broadcastExcept(Component message, List<UUID> except) {
+        Bukkit.getOnlinePlayers()
+            .stream().filter((p)->!except.contains(p.getUniqueId()))
+            .forEach((p)->p.sendMessage(message));
     }
 
 }

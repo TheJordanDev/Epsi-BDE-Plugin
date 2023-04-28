@@ -12,8 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.thejordan.epsi.Epsi;
+import fr.thejordan.epsi.config.Config;
 import fr.thejordan.epsi.helpers.Utils;
-import fr.thejordan.epsi.object.Config;
 
 public class EpsiCommand implements CommandExecutor, TabCompleter {
 

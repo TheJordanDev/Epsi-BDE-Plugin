@@ -72,9 +72,26 @@ public class MessageFactory {
     public static TextComponent griefingToggleExplain() {
         return Component.newline()
             .append(Component.text("§7§l-=-=-=-=-=-=-=-§r")).append(Component.newline())
-            .append(Component.text("§6/griefing").hoverEvent(HoverEvent.showText(Component.text("§eAlterne ton état de vanish de manière silencieuse")))).append(Component.newline())
-            .append(Component.text("§6/griefing toggle <message/gamerule>").hoverEvent(HoverEvent.showText(Component.text("§eAlterne ton état de vanish de manière silencieuse ou non")))).append(Component.newline())
+            .append(Component.text("§6/griefing toggle").hoverEvent(HoverEvent.showText(Component.text("§eAlterne l'état du griefing toggle")))).append(Component.newline())
             .append(Component.text("§7§l-=-=-=-=-=-=-=-")).append(Component.newline());
+    }
+
+    public static TextComponent griefingStatus(boolean status) {
+        TextComponent component;
+        if (status) {
+            component = Component
+                .text("§c§lATTENTION: Le mob griefing est activé !").append(Component.newline())
+                .append(Component.text("§r§7§oLes creepers feront donc des dégats de terrains. Il sera redésactivé la nuit."));
+        } else {
+            component = Component
+                .text("§a§lLe mob griefing est désactivé.").append(Component.newline())
+                .append(Component.text("§r§7§oLes creepers ne feront plus de dégats de terrain. Il sera réactivé le jour."));
+        }
+        return component.append(Component.space())
+            .append(Component.text("§7§l§n[CACHER]")
+                .hoverEvent(HoverEvent.showText(Component.text("§7Cacher le message pour les prochaines fois")))
+                .clickEvent(ClickEvent.runCommand("/griefing hideMessage"))
+            );
     }
 
 

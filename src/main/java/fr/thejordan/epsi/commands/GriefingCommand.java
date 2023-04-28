@@ -11,7 +11,9 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import fr.thejordan.epsi.config.Griefing;
 import fr.thejordan.epsi.helpers.MessageFactory;
+import fr.thejordan.epsi.helpers.Messages;
 import fr.thejordan.epsi.helpers.Utils;
 
 public class GriefingCommand implements CommandExecutor, TabCompleter {
@@ -24,15 +26,19 @@ public class GriefingCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) return false;
-        if (args.length < 2) {
-            player.sendMessage(MessageFactory.griefingToggleExplain());
+        if (args.length == 1 && args[0].equalsIgnoreCase("hideMessage")) {
+            if (Griefing.instance().hideMessage.contains(player.getUniqueId()))
+                Griefing.instance().hideMessage.remove(player.getUniqueId());
+            else
+                Griefing.instance().hideMessage.add(player.getUniqueId());
             return false;
-        } else if (args[0].equalsIgnoreCase("toggle")) {
-            if (args[1].equalsIgnoreCase("messages"))
-                System.out.println("");
-            else if (args[1].equalsIgnoreCase("gamerule"))
-                System.out.println("");
-
+        }
+        if (!player.hasPermission("epsi.griefing")) return true;
+        if (args.length == 1 && args[0].equalsIgnoreCase("toggle")) {
+            Griefing.instance().enabled = !Griefing.instance().enabled;
+            Messages.GRIEFING_STATE_CHANGE(Griefing.instance().enabled).send(player);
+        } else {
+            player.sendMessage(MessageFactory.griefingToggleExplain());
         }
         return false;
     }
@@ -41,10 +47,6 @@ public class GriefingCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1)
             return Utils.autocomplete(args[0], Arrays.asList("toggle"));
-        else if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("toggle"))
-                return Utils.autocomplete(args[1], Arrays.asList("message","gamerule"));
-        }
         return Collections.emptyList();
     }
     
