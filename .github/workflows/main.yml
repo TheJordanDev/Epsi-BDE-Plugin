@@ -20,7 +20,7 @@ jobs:
         run: mvn package
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%D')"
+        run: echo "::set-output name=date::$(date +'%d/%m/%Y')"
       - name: Get current time
         id: time
         run: echo "::set-output name=time::$(date +'%T')"
@@ -35,5 +35,5 @@ jobs:
         with: 
           files: ./target/Epsi-1.0-SNAPSHOT.jar
           token: ${{ secrets.RELEASE_TOKEN }}
+          tag_name: ${{ steps.date.outputs.date }}
           name: ${{ steps.time.outputs.time }}
-          tag: ${{ steps.date.outputs.date }}
