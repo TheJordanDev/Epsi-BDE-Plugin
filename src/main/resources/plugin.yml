@@ -19,3 +19,5 @@ commands:
   epsi:
     description: "Epsi"
     permission: epsi.epsi
+  griefing:
+    description: "Griefing"

@@ -1,7 +1,7 @@
 package fr.thejordan.epsi.commands;
 
+import fr.thejordan.epsi.config.Config;
 import fr.thejordan.epsi.helpers.Utils;
-import fr.thejordan.epsi.object.Config;
 
 import org.bukkit.Location;
 import org.bukkit.command.Command;

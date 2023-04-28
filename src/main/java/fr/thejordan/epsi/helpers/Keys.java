@@ -10,6 +10,8 @@ public class Keys {
     public static NamespacedKey savedXP; 
     public static NamespacedKey isVanished; 
     public static NamespacedKey homeLocation; 
+    public static NamespacedKey griefingMessageStatus; 
+    public static NamespacedKey griefingToggleMessageStatus; 
     
     public Keys(JavaPlugin plugin) {
         deathCompass = new NamespacedKey(plugin, "deathCompass");
@@ -17,6 +19,8 @@ public class Keys {
         savedXP = new NamespacedKey(plugin, "savedXP");
         isVanished = new NamespacedKey(plugin, "isVanished");
         homeLocation = new NamespacedKey(plugin, "homeLocation");
+        griefingMessageStatus = new NamespacedKey(plugin, "griefingMessageStatus");
+        griefingToggleMessageStatus = new NamespacedKey(plugin, "griefingToggleMessageStatus");
     }
 
 }

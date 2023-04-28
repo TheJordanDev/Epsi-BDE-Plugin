@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,7 +37,7 @@ public class VanishConfig extends AbstractConfigFile<List<UUID>> {
             return config.getStringList("auto")
                 .stream().filter((_uu)->Utils.isValidUUID(_uu))
                 .map((_uu)->UUID.fromString(_uu))
-                .toList();
+                .collect(Collectors.toList());
         };
     }
 

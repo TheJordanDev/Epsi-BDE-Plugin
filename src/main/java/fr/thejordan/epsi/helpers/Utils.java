@@ -9,8 +9,12 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameRule;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+
+import fr.thejordan.epsi.config.Griefing;
+import net.kyori.adventure.text.Component;
 
 public class Utils {
 
@@ -88,6 +92,17 @@ public class Utils {
         float pitch = Math.round(floatFromString(parts[4]));
         String world = parts[5];
         return new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
+    }
+
+    public static void toggleGriefing(boolean status) {
+        broadcastExcept(MessageFactory.griefingStatus(status), Griefing.instance().hideMessage);
+        Bukkit.getWorlds().get(0).setGameRule(GameRule.MOB_GRIEFING, status);
+    }
+
+    public static void broadcastExcept(Component message, List<UUID> except) {
+        Bukkit.getOnlinePlayers()
+            .stream().filter((p)->!except.contains(p.getUniqueId()))
+            .forEach((p)->p.sendMessage(message));
     }
 
 }
