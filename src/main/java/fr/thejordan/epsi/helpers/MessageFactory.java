@@ -69,5 +69,13 @@ public class MessageFactory {
             .append(Component.text(location.getBlockZ()));
     }
 
+    public static TextComponent griefingToggleExplain() {
+        return Component.newline()
+            .append(Component.text("§7§l-=-=-=-=-=-=-=-§r")).append(Component.newline())
+            .append(Component.text("§6/griefing").hoverEvent(HoverEvent.showText(Component.text("§eAlterne ton état de vanish de manière silencieuse")))).append(Component.newline())
+            .append(Component.text("§6/griefing toggle <message/gamerule>").hoverEvent(HoverEvent.showText(Component.text("§eAlterne ton état de vanish de manière silencieuse ou non")))).append(Component.newline())
+            .append(Component.text("§7§l-=-=-=-=-=-=-=-")).append(Component.newline());
+    }
+
 
 }

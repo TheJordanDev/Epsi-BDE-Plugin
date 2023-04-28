@@ -56,7 +56,7 @@ public class TpaRequest {
         else if (action == TpaAction.DENY) Messages.YOU_DENIED_REQUEST.send(to().get());
         else Messages.YOU_IGNORED_REQUEST.send(to().get());
 
-        if (action != TpaAction.DENY) {
+        if (action != TpaAction.IGNORE) {
             if (action == TpaAction.ACCEPT) {
                 Messages.REQUEST_ACCEPTED(to().get()).send(from().get());
                 new BukkitRunnable() {
@@ -64,7 +64,7 @@ public class TpaRequest {
                     public void run() { from().get().teleport(to().get()); }
                 }.runTaskLater(Epsi.instance(),20*5);
             } else
-                Messages.REQUEST_DENIED(from().get()).send(to().get());
+                Messages.REQUEST_DENIED(to().get()).send(from().get());
         }
 
     }

@@ -9,6 +9,7 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameRule;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -88,6 +89,13 @@ public class Utils {
         float pitch = Math.round(floatFromString(parts[4]));
         String world = parts[5];
         return new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
+    }
+
+    public static void toggleGriefing() {
+        boolean newValue = !Bukkit.getWorlds().get(0).getGameRuleValue(GameRule.MOB_GRIEFING);
+        if (newValue) Bukkit.broadcast(Messages.GRIEFING_ON().getMessage());
+        else Bukkit.broadcast(Messages.GRIEFING_OFF().getMessage());
+        Bukkit.getWorlds().get(0).setGameRule(GameRule.MOB_GRIEFING, newValue);
     }
 
 }

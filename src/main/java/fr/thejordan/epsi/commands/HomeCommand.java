@@ -35,6 +35,5 @@ public class HomeCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         return Collections.emptyList();
     }
-
     
 }

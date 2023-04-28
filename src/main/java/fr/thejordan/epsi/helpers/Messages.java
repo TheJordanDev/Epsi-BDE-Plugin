@@ -34,7 +34,12 @@ public class Messages {
     public static Messages PLAYER_WANTS_TO_TP(Player player) {
         return new Messages("§3§l"+player.getName()+" §r§eveut ce téléporter à toi !");
     }
-
+    public static Messages GRIEFING_ON() {
+        return new Messages("§c§lATTENTION: Le mob griefing est activé\n§r§7§oLes creepers feront donc des dégats de terrains. Il sera redésactivé la nuit.");
+    }
+    public static Messages GRIEFING_OFF() {
+        return new Messages("§a§lLe mob griefing est désactivé.\n§r§7§oLes creepers ne feront plus de dégats de terrain. Il sera réactivé le jour.");
+    }
     //-=-=-=-=-=-= TPA =-=-=-=-=-=-
 
     //SENT
@@ -80,5 +85,7 @@ public class Messages {
     public static Messages HOME_SET = new Messages("§eHome définie");
     public static Messages NO_HOME_SET = new Messages("§cAucun home défini");
     public static Messages HOME_TELEPORT = new Messages("§aTéléportation en cours");
+
+    
 
 }
