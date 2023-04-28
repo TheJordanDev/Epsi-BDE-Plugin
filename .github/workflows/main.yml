@@ -8,13 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_REPOSITORY: TheJordanDev/Epsi-BDE-Plugin
-      TAG_NAME: ${{github.head_ref}}
+      TAG_NAME: latest
     steps:
       - uses: actions/checkout@v2
-      - name: "🏷️ Push tag"
-        uses: EndBug/latest-tag@latest
-        with:
-          tag-name: ${{env.TAG_NAME}}
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
