@@ -18,21 +18,9 @@ jobs:
         run: mvn package
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        uses: softprops/action-gh-release@v1
+        with: 
+          files: ./target/Epsi-1.0-SNAPSHOT.jar
+          token: ${{ secrets.RELEASE_TOKEN }}
         env:
-          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-        with:
-          tag_name: v1.0.0 # set tag for the release
-          release_name: Release 1.0.0 # name for the release
-          body: Release of version 1.0.0 # description of the release
-          draft: false # publish the release immediately
-          prerelease: false # mark as a pre-release if true
-      - name: Upload JAR file
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./target/Epsi-1.0-SNAPSHOT.jar # path to the JAR file
-          asset_name: Epsi-1.0-SNAPSHOT.jar # name of the asset in the release
-          asset_content_type: application/java-archive # content type of the asset
+          GITHUB_REPOSITORY: TheJordanDev/Epsi-BDE-Plugin
