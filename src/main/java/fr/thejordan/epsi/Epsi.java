@@ -14,10 +14,12 @@ import fr.thejordan.epsi.config.Griefing.GriefingConfig;
 import fr.thejordan.epsi.helpers.Keys;
 import fr.thejordan.epsi.listeners.PlayerListener;
 import fr.thejordan.epsi.object.HomeManager;
+import fr.thejordan.epsi.object.MainScoreboard;
 import fr.thejordan.epsi.object.TpaManager;
 import fr.thejordan.epsi.object.VanishManager;
 import fr.thejordan.epsi.scheduler.GriefingTimeCheckerScheduler;
 import fr.thejordan.epsi.scheduler.TpaExpireScheduler;
+import fr.thejordan.noflicker.CScoreboardManager;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -27,6 +29,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public final class Epsi extends JavaPlugin {
 
@@ -53,6 +56,7 @@ public final class Epsi extends JavaPlugin {
         new Keys(this);
         this.configuration = new MainConfig(this);
         this.griefingConfig = new GriefingConfig(this);
+        new CScoreboardManager(this);
         this.tpaManager = new TpaManager();
         this.vanishManager = new VanishManager();
         this.homeManager = new HomeManager();
@@ -61,10 +65,21 @@ public final class Epsi extends JavaPlugin {
                 VanishManager.instance().vanish(player, true);
                 player.getPersistentDataContainer().remove(Keys.isVanished);
             }
+            CScoreboardManager.instance.send(new MainScoreboard(player));
         }
         loadConfig();
         this.expireScheduler = new TpaExpireScheduler();
         this.expireScheduler.runTaskTimer(this, 0L, 20L);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (MainScoreboard.currentTitle + 1 > MainScoreboard.titles.length-1)
+                    MainScoreboard.currentTitle = 0;
+                else
+                    MainScoreboard.currentTitle++;
+            }
+        }.runTaskTimer(this, 0L, 10L);
 
         this.gTimeCheckerScheduler = new GriefingTimeCheckerScheduler();
         this.gTimeCheckerScheduler.runTaskTimer(this, 0L, 40L);

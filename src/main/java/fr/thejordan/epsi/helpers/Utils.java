@@ -6,17 +6,34 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.StringJoiner;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.Location;
+import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 
 import fr.thejordan.epsi.config.Griefing;
 import net.kyori.adventure.text.Component;
 
 public class Utils {
+
+    public static String formatTemps(Player player) {
+        int secondes = player.getStatistic(Statistic.TOTAL_WORLD_TIME)/20;
+        long jours = TimeUnit.SECONDS.toDays(secondes);
+        long heures = TimeUnit.SECONDS.toHours(secondes) - (jours * 24);
+        long minutes = TimeUnit.SECONDS.toMinutes(secondes) - (jours * 24 * 60) - (heures * 60);
+        long secondesRestantes = secondes - (jours * 24 * 60 * 60) - (heures * 60 * 60) - (minutes * 60);
+        String resultat = "";
+        if (jours > 0) resultat += jours + "J ";
+        if (heures > 0) resultat += heures + "H ";
+        if (minutes > 0) resultat += minutes + "M ";
+        if (secondesRestantes > 0 || resultat.isEmpty()) resultat += secondesRestantes + "S";
+        return resultat;
+    }
+    
 
     public static int getRandomNumberInRange(int min, int max) {
         if (min >= max) throw new IllegalArgumentException("max must be greater than min");

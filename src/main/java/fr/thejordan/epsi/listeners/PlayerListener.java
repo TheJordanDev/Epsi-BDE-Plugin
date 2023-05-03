@@ -3,9 +3,14 @@ package fr.thejordan.epsi.listeners;
 import fr.thejordan.epsi.Epsi;
 import fr.thejordan.epsi.helpers.Keys;
 import fr.thejordan.epsi.helpers.MessageFactory;
+import fr.thejordan.epsi.object.MainScoreboard;
 import fr.thejordan.epsi.object.VanishManager;
+import fr.thejordan.noflicker.CScoreboardManager;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.TitlePart;
+import net.kyori.adventure.title.Title.Times;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +18,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.World.Environment;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -36,6 +42,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void playerJoinEvent(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        CScoreboardManager.instance.send(new MainScoreboard(player));
         if (VanishManager.isAutoVanish(player))
             VanishManager.instance().vanish(player, true);
 
@@ -83,6 +90,8 @@ public class PlayerListener implements Listener {
     public void onDeath(PlayerDeathEvent event) {
         Player player = event.getPlayer();
         World world = player.getWorld();
+
+        boolean isDeadByVoidCheh = (world.getEnvironment() == Environment.THE_END && player.getLocation().getY() < 0D);
         if (event.getKeepInventory() == true) return;
         if (event.getDrops().size() == 0) return;
 
@@ -99,6 +108,7 @@ public class PlayerListener implements Listener {
         }
 
         Location deathLocation = event.getEntity().getLocation();
+        if (isDeadByVoidCheh) deathLocation.setY(0D);
         world.getBlockAt(deathLocation).setType(Material.CHEST);
 
         //((org.bukkit.block.data.type.Chest)world.getBlockAt(deathLocation).getBlockData()).setWaterlogged(true);
@@ -108,7 +118,8 @@ public class PlayerListener implements Listener {
         inventoryChest.getInventory().setContents(firstChestI.toArray(new ItemStack[firstChestI.size()]));
 
         if (otherChestI.size() > 0) {
-            Location otherChestlocation = event.getEntity().getLocation().clone().add(0, 1, 0);            
+            Location otherChestlocation = deathLocation.clone().add(0, 1, 0);
+            
             world.getBlockAt(otherChestlocation).setType(Material.CHEST);
 
             //((org.bukkit.block.data.type.Chest)world.getBlockAt(otherChestlocation).getBlockData()).setWaterlogged(true);
@@ -116,6 +127,10 @@ public class PlayerListener implements Listener {
             otherChest.getPersistentDataContainer().set(Keys.isDeathChest, PersistentDataType.BYTE, (byte)0);
             otherChest.update();
             otherChest.getInventory().setContents(otherChestI.toArray(new ItemStack[otherChestI.size()]));
+        }
+        if (isDeadByVoidCheh) {
+            player.sendTitlePart(TitlePart.TITLE, Component.text("§3CHEHHHHHHHH !!!!"));
+            player.sendTitlePart(TitlePart.TIMES, Times.times(Duration.ofSeconds(5), Duration.ofSeconds(10), Duration.ofSeconds(5)));
         }
     }
 
