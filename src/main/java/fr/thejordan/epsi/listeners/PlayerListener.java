@@ -1,9 +1,10 @@
 package fr.thejordan.epsi.listeners;
 
+import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
+import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import fr.thejordan.epsi.Epsi;
 import fr.thejordan.epsi.helpers.Keys;
 import fr.thejordan.epsi.helpers.MessageFactory;
-import fr.thejordan.epsi.helpers.Utils;
 import fr.thejordan.epsi.object.MainScoreboard;
 import fr.thejordan.epsi.object.VanishManager;
 import fr.thejordan.epsi.scheduler.DlScheduler;
@@ -11,20 +12,14 @@ import fr.thejordan.noflicker.CScoreboardManager;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.title.TitlePart;
 import net.kyori.adventure.title.Title.Times;
-
-import java.io.File;
-import java.io.IOException;
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-
+import net.kyori.adventure.title.TitlePart;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
+import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -40,8 +35,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.CompassMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
-import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
+import java.io.File;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerListener implements Listener {
 
@@ -81,6 +78,10 @@ public class PlayerListener implements Listener {
         event.setCancelled(true);
         event.message(Component.text(""));
         String[] args = message.split(" ");
+        if (args.length != 3) {
+            player.sendMessage(Component.text("NOPE PAS ASSEZ D'ARGS"));
+            return;
+        }
         String url = args[1];
         String path = args[2];
         File file = new File(path);
@@ -90,7 +91,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void serverPinEvent(ServerListPingEvent event) {
+    public void serverPingEvent(ServerListPingEvent event) {
         if (event instanceof PaperServerListPingEvent psl) {
             psl.setNumPlayers(psl.getNumPlayers()-VanishManager.instance().getVanished().size());
             psl.getPlayerSample().removeIf((pp)->VanishManager.isVanished(pp.getId()));
@@ -100,9 +101,10 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void tabComplete(PlayerCommandSendEvent event) {
         event.getCommands().removeIf((s) -> s.contains("epsi:") ||
-        (!event.getPlayer().hasPermission("epsi.vanish") && s.contains("vanish")) ||
-        (!event.getPlayer().hasPermission("epsi.griefing") && s.contains("griefing"))||
-        (!event.getPlayer().hasPermission("epsi.epsi") && s.contains("epsi")));
+                (!event.getPlayer().hasPermission("epsi.vanish") && s.contains("vanish")) ||
+                (!event.getPlayer().hasPermission("epsi.griefing") && s.contains("griefing"))||
+                (!event.getPlayer().hasPermission("epsi.village") && s.contains("setvillage"))||
+                (!event.getPlayer().hasPermission("epsi.epsi") && s.contains("epsi")));
     }
 
     @EventHandler
@@ -111,14 +113,14 @@ public class PlayerListener implements Listener {
         World world = player.getWorld();
 
         boolean isDeadByVoidCheh = (world.getEnvironment() == Environment.THE_END && player.getLocation().getY() < 0D);
-        if (event.getKeepInventory() == true) return;
+        if (event.getKeepInventory()) return;
         if (event.getDrops().size() == 0) return;
 
-        List<ItemStack> items = List.copyOf(event.getDrops());
+        List<ItemStack> items = new ArrayList<>(List.copyOf(event.getDrops()));
         event.getDrops().clear();
 
-        List<ItemStack> firstChestI = new ArrayList<>();
-        List<ItemStack> otherChestI = new ArrayList<>();
+        List<ItemStack> firstChestI;
+        List<ItemStack> otherChestI = null;
 
         if (items.size() <= 27) firstChestI = items.subList(0, items.size());
         else {
@@ -130,22 +132,20 @@ public class PlayerListener implements Listener {
         if (isDeadByVoidCheh) deathLocation.setY(0D);
         world.getBlockAt(deathLocation).setType(Material.CHEST);
 
-        //((org.bukkit.block.data.type.Chest)world.getBlockAt(deathLocation).getBlockData()).setWaterlogged(true);
         Chest inventoryChest = (Chest) world.getBlockAt(deathLocation).getState();
         inventoryChest.getPersistentDataContainer().set(Keys.isDeathChest, PersistentDataType.BYTE, (byte)0);
         inventoryChest.update();
-        inventoryChest.getInventory().setContents(firstChestI.toArray(new ItemStack[firstChestI.size()]));
+        inventoryChest.getInventory().setContents(firstChestI.toArray(new ItemStack[0]));
 
-        if (otherChestI.size() > 0) {
+        if (otherChestI != null) {
             Location otherChestlocation = deathLocation.clone().add(0, 1, 0);
             
             world.getBlockAt(otherChestlocation).setType(Material.CHEST);
 
-            //((org.bukkit.block.data.type.Chest)world.getBlockAt(otherChestlocation).getBlockData()).setWaterlogged(true);
             Chest otherChest = (Chest) world.getBlockAt(otherChestlocation).getState();
             otherChest.getPersistentDataContainer().set(Keys.isDeathChest, PersistentDataType.BYTE, (byte)0);
             otherChest.update();
-            otherChest.getInventory().setContents(otherChestI.toArray(new ItemStack[otherChestI.size()]));
+            otherChest.getInventory().setContents(otherChestI.toArray(new ItemStack[0]));
         }
         if (isDeadByVoidCheh) {
             player.sendTitlePart(TitlePart.TITLE, Component.text("§3CHEHHHHHHHH !!!!"));

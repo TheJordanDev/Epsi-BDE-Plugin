@@ -1,22 +1,13 @@
 package fr.thejordan.epsi;
 
-import fr.thejordan.epsi.commands.EpsiCommand;
-import fr.thejordan.epsi.commands.GriefingCommand;
-import fr.thejordan.epsi.commands.HomeCommand;
-import fr.thejordan.epsi.commands.RtpCommand;
-import fr.thejordan.epsi.commands.SpawnCommand;
-import fr.thejordan.epsi.commands.TpaCommand;
-import fr.thejordan.epsi.commands.VanishCommand;
+import fr.thejordan.epsi.commands.*;
 import fr.thejordan.epsi.config.Config;
 import fr.thejordan.epsi.config.Griefing;
 import fr.thejordan.epsi.config.Config.MainConfig;
 import fr.thejordan.epsi.config.Griefing.GriefingConfig;
 import fr.thejordan.epsi.helpers.Keys;
 import fr.thejordan.epsi.listeners.PlayerListener;
-import fr.thejordan.epsi.object.HomeManager;
-import fr.thejordan.epsi.object.MainScoreboard;
-import fr.thejordan.epsi.object.TpaManager;
-import fr.thejordan.epsi.object.VanishManager;
+import fr.thejordan.epsi.object.*;
 import fr.thejordan.epsi.scheduler.GriefingTimeCheckerScheduler;
 import fr.thejordan.epsi.scheduler.TpaExpireScheduler;
 import fr.thejordan.noflicker.CScoreboardManager;
@@ -46,6 +37,7 @@ public final class Epsi extends JavaPlugin {
     @Getter private TpaManager tpaManager;
     @Getter private VanishManager vanishManager;
     @Getter private HomeManager homeManager;
+    @Getter private VillageManager villageManager;
 
     @Getter private TpaExpireScheduler expireScheduler;
     @Getter private GriefingTimeCheckerScheduler gTimeCheckerScheduler;
@@ -57,9 +49,12 @@ public final class Epsi extends JavaPlugin {
         this.configuration = new MainConfig(this);
         this.griefingConfig = new GriefingConfig(this);
         new CScoreboardManager(this);
+
         this.tpaManager = new TpaManager();
         this.vanishManager = new VanishManager();
         this.homeManager = new HomeManager();
+        this.villageManager = new VillageManager();
+
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player.getPersistentDataContainer().has(Keys.isVanished)) {
                 VanishManager.instance().vanish(player, true);
@@ -91,6 +86,7 @@ public final class Epsi extends JavaPlugin {
         new VanishCommand().register(this);
         new HomeCommand().register(this);
         new GriefingCommand().register(this);
+        new VillageCommand().register(this);
         
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
     }
