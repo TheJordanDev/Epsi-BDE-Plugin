@@ -1,22 +1,16 @@
 package fr.thejordan.epsi.helpers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.StringJoiner;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
-
+import fr.thejordan.epsi.config.Griefing;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.Location;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 
-import fr.thejordan.epsi.config.Griefing;
-import net.kyori.adventure.text.Component;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 public class Utils {
 
@@ -43,14 +37,6 @@ public class Utils {
 
     public static Optional<Player> getPlayer(String name) {
         return Optional.ofNullable(Bukkit.getPlayer(name));
-    }
-
-    public static Optional<Boolean> stringToBool(String string) {
-        try {
-            return Optional.of(Boolean.parseBoolean(string.toLowerCase()));
-        } catch (Exception e) {
-            return Optional.ofNullable(null);
-        }
     }
 
     public static List<String> autocomplete(String written, List<String> words) {
@@ -90,11 +76,11 @@ public class Utils {
 
     public static String locationToString(Location location) {
         StringJoiner joiner = new StringJoiner("|")
-            .add(location.getX()+"")
-            .add(location.getY()+"")
-            .add(location.getZ()+"")
-            .add(location.getYaw()+"")
-            .add(location.getPitch()+"")
+            .add(String.valueOf(location.getX()))
+            .add(String.valueOf(location.getY()))
+            .add(String.valueOf(location.getZ()))
+            .add(String.valueOf(location.getYaw()))
+            .add(String.valueOf(location.getPitch()))
             .add(location.getWorld().getName());
         return joiner.toString();
     }

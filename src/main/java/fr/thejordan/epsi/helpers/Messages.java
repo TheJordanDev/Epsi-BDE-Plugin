@@ -86,6 +86,11 @@ public class Messages {
     public static Messages NO_HOME_SET = new Messages("§cAucun home défini");
     public static Messages HOME_TELEPORT = new Messages("§aTéléportation en cours");
 
+    // -=-=-=-=-=-= Village =-=-=-=-=-=-
+    public static Messages VILLAGE_SET = new Messages("§eVillage définie");
+    public static Messages NO_VILLAGE_SET = new Messages("§cAucun village défini");
+    public static Messages VILLAGE_TELEPORT = new Messages("§aTéléportation en cours");
+
     // -=-=-=-=-=-= Griefing =-=-=-=-=-=-
     public static Messages GRIEFING_STATE_CHANGE(boolean newV){
         if (newV)

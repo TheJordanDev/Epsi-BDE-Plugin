@@ -21,3 +21,30 @@ commands:
     permission: epsi.epsi
   griefing:
     description: "Griefing"
+    permission: epsi.griefing
+  village:
+    description: "TP au village"
+  setvillage:
+    description: "Set Village"
+    permission: epsi.village
+permissions:
+  epsi.*:
+    description: Toutes les permissions du plugin
+    default: op
+    children:
+      - epsi.epsi
+      - epsi.vanish
+      - epsi.griefing
+      - epsi.village
+  epsi.epsi:
+    description: Permission pour reload le plugin de l'Epsi
+    default: op
+  epsi.vanish:
+    description: Permission pour vanish
+    default: op
+  epsi.griefing:
+    description: Permission pour toggle le grief des mobs rapport au temps
+    default: op
+  epsi.village:
+    description: Permission pour modifier le village
+    default: op

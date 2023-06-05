@@ -20,11 +20,13 @@ public class Config {
     public static void instance(Config edit) { 
         instance.setTpaExpiry(edit.tpaExpiry); 
         instance.setSpawnCenter(edit.spawnCenter); 
-        instance.setRtpRay(edit.rtpRay); 
+        instance.setRtpRay(edit.rtpRay);
+        instance.setVillage(edit.village);
     }
 
     @Getter @Setter private Integer tpaExpiry;
     @Getter @Setter private Location spawnCenter;
+    @Getter @Setter private Location village;
     @Getter @Setter private Integer rtpRay;
 
     public Config() {
@@ -53,11 +55,18 @@ public class Config {
                 Config conf = new Config();
                 conf.setRtpRay(config.getInt("rtp.ray", 500));
                 conf.setSpawnCenter(new Location(
-                    Bukkit.getWorld(config.getString("spawnCenter.world","world")),
-                    config.getInt("spawnCenter.x",0),
-                    config.getInt("spawnCenter.y",0),
-                    config.getInt("spawnCenter.z",0)
+                        Bukkit.getWorld(config.getString("spawnCenter.world","world")),
+                        config.getInt("spawnCenter.x",0),
+                        config.getInt("spawnCenter.y",0),
+                        config.getInt("spawnCenter.z",0)
                 ));
+                if (config.isSet("village"))
+                    conf.setVillage(new Location(
+                            Bukkit.getWorld(config.getString("village.world","world")),
+                            config.getInt("village.x",0),
+                            config.getInt("village.y",0),
+                            config.getInt("village.z",0)
+                    ));
                 conf.setTpaExpiry(config.getInt("tpa.expire", 30));
                 return conf;
             };
@@ -77,6 +86,14 @@ public class Config {
                     configuration.set("spawnCenter.x", config.getSpawnCenter().blockX());
                     configuration.set("spawnCenter.y", config.getSpawnCenter().blockY());
                     configuration.set("spawnCenter.z", config.getSpawnCenter().blockZ());
+                }
+                if (!configuration.isSet("village")) {
+                    if (config.getVillage() != null) {
+                        configuration.set("village.world", config.getVillage().getWorld().getName());
+                        configuration.set("village.x", config.getVillage().blockX());
+                        configuration.set("village.y", config.getVillage().blockY());
+                        configuration.set("village.z", config.getVillage().blockZ());
+                    }
                 }
             };
         }
