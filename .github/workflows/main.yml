@@ -1,4 +1,4 @@
-name: Package and Release Maven Project
+name: Package du projet Epsi Plugin
 on:
   push:
     branches:
@@ -9,7 +9,10 @@ jobs:
     env:
       GITHUB_REPOSITORY: TheJordanDev/Epsi-BDE-Plugin
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
@@ -19,13 +22,32 @@ jobs:
       - name: Build with Maven
         run: mvn package
       - name: Get current time
-        id: time
-        run: echo "time=$(TZ='France/Paris' date +'%d-%m-%Y %T')" >> $GITHUB_ENV
+        id: datetime
+        run: |
+          echo "time=$(TZ='Europe/Paris' date +'%T')" >> $GITHUB_ENV
+          echo "date=$(TZ='Europe/Paris' date +'%d-%m-%Y')" >> $GITHUB_ENV
+      - name: Check for Tag
+        run: |
+          if git rev-parse --quiet --verify "refs/tags/${{ env.date }}"; then
+            echo "tag_exists=true" >> $GITHUB_ENV
+          else
+            echo "tag_exists=false" >> $GITHUB_ENV
+          fi
+      - name: Create Tag
+        run: |
+          if [[ "${{ env.tag_exists }}" != "true" ]]; then
+            git config user.name "${{ github.actor }}"
+            git config user.email "${{ github.actor }}@users.noreply.github.com"
+            git tag ${{ env.date }}
+            git push origin ${{ env.date }}
+          fi
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
-        with: 
+        with:
           files: ./target/Epsi-1.0-SNAPSHOT.jar
-          token: ${{ secrets.RELEASE_TOKEN }}
-          tag_name: 'release'
+          tag_name: ${{ env.date }}
           name: ${{ env.time }}
+          draft: false
+          prerelease: false
+          token: ${{ secrets.RELEASE_TOKEN }}
