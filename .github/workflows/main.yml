@@ -24,30 +24,14 @@ jobs:
       - name: Get current time
         id: datetime
         run: |
-          echo "time=$(TZ='Europe/Paris' date +'%T')" >> $GITHUB_ENV
-          echo "date=$(TZ='Europe/Paris' date +'%d-%m-%Y')" >> $GITHUB_ENV
-      - name: Check for Tag
-        run: |
-          if git rev-parse --quiet --verify "refs/tags/${{ env.date }}"; then
-            echo "tag_exists=true" >> $GITHUB_ENV
-          else
-            echo "tag_exists=false" >> $GITHUB_ENV
-          fi
-      - name: Create Tag
-        run: |
-          if [[ "${{ env.tag_exists }}" != "true" ]]; then
-            git config user.name "${{ github.actor }}"
-            git config user.email "${{ github.actor }}@users.noreply.github.com"
-            git tag ${{ env.date }}
-            git push origin ${{ env.date }}
-          fi
+          echo "datetime=$(TZ='Europe/Paris' date +'%d-%m-%Y %T')" >> $GITHUB_ENV
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
           files: ./target/Epsi-1.0-SNAPSHOT.jar
-          tag_name: ${{ env.date }}
-          name: ${{ env.time }}
+          tag_name: latest
+          name: ${{ env.datetime }}
           draft: false
           prerelease: false
           token: ${{ secrets.RELEASE_TOKEN }}
