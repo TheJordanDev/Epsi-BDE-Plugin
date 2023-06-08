@@ -29,6 +29,10 @@ public class DeathsCommand implements CommandExecutor, TabCompleter {
         if (args.length == 0) {
             List<DeathStat> players = getTopPage(1);
             sender.sendMessage(MessageFactory.deathTop(players, 1));
+        } else if (args.length == 1) {
+            int wanted = Utils.intFromString(args[0]);
+            List<DeathStat> players = getTopPage(wanted);
+            sender.sendMessage(MessageFactory.deathTop(players, wanted));
         }
         return false;
     }

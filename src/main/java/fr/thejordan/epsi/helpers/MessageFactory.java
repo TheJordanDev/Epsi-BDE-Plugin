@@ -98,12 +98,14 @@ public class MessageFactory {
             );
     }
 
-    public static TextComponent deathTop(List<DeathStat> players, int current_page) {
+    public static TextComponent deathTop(List<DeathStat> players, int _page) {
         int MAX_PAGE = (int) Math.ceil((double) Bukkit.getOfflinePlayers().length/5);
+        int page = Math.min(_page, MAX_PAGE);
+        if (page < 1) page = 1;
         TextComponent message = Component.text("§7§l-=-=-=-=- §e§lTOP MORTS §7§l-=-=-=-=-").append(Component.newline());
         for (int i = 1; i<=players.size(); i++) {
             DeathStat stat = players.get(i-1);
-            int top = ((current_page-1)*5)+i;
+            int top = ((page-1)*5)+i;
             TextComponent playerLine = Component.text(top+". ");
             if (top == 1) playerLine = playerLine.color(TextColor.color(255,202,9));
             else if (top == 2) playerLine = playerLine.color(TextColor.color(182,181,184));
@@ -117,25 +119,25 @@ public class MessageFactory {
         TextComponent footer = Component.text("§7§l-=-=-=-=-=-§r").append(Component.space());
 
         TextComponent backBtn = Component.text("≪");
-        if (current_page <= 1) backBtn = backBtn.color(TextColor.color(105,105,105));
+        if (page == 1) backBtn = backBtn.color(TextColor.color(105,105,105));
         else {
             backBtn = backBtn
                     .color(TextColor.color(255,215,0))
-                    .clickEvent(ClickEvent.runCommand("topdeaths "+(current_page-1)));
+                    .clickEvent(ClickEvent.runCommand("topdeaths "+(page-1)));
         }
 
         TextComponent pages = Component
                 .empty().color(TextColor.color(64,64,64))
-                .append(Component.text(current_page))
+                .append(Component.text(page))
                 .append(Component.text("/"))
                 .append(Component.text(MAX_PAGE));
 
         TextComponent nextBtn = Component.text("≫");
-        if (current_page >= 1) nextBtn = nextBtn.color(TextColor.color(105,105,105));
+        if (page >= MAX_PAGE) nextBtn = nextBtn.color(TextColor.color(105,105,105));
         else {
             nextBtn = nextBtn
                     .color(TextColor.color(255,215,0))
-                    .clickEvent(ClickEvent.runCommand("topdeaths "+(current_page+1)));
+                    .clickEvent(ClickEvent.runCommand("topdeaths "+(page+1)));
         }
 
         message = message.append(
