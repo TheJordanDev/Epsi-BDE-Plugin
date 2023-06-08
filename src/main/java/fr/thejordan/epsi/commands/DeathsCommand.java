@@ -26,13 +26,15 @@ public class DeathsCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        int MAX_PAGE = (int) Math.ceil((double) Bukkit.getOfflinePlayers().length/5);
         if (args.length == 0) {
             List<DeathStat> players = getTopPage(1);
-            sender.sendMessage(MessageFactory.deathTop(players, 1));
+            sender.sendMessage(MessageFactory.deathTop(players, 1, MAX_PAGE));
         } else if (args.length == 1) {
             int wanted = Utils.intFromString(args[0]);
+            int page = (wanted < 1) ? 1 : (wanted > MAX_PAGE) ? MAX_PAGE : wanted;
             List<DeathStat> players = getTopPage(wanted);
-            sender.sendMessage(MessageFactory.deathTop(players, wanted));
+            sender.sendMessage(MessageFactory.deathTop(players, page, MAX_PAGE));
         }
         return false;
     }

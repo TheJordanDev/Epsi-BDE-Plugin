@@ -98,10 +98,7 @@ public class MessageFactory {
             );
     }
 
-    public static TextComponent deathTop(List<DeathStat> players, int _page) {
-        int MAX_PAGE = (int) Math.ceil((double) Bukkit.getOfflinePlayers().length/5);
-        int page = Math.min(_page, MAX_PAGE);
-        if (page < 1) page = 1;
+    public static TextComponent deathTop(List<DeathStat> players, int page, int MAX_PAGE) {
         TextComponent message = Component.text("§7§l-=-=-=-=- §e§lTOP MORTS §7§l-=-=-=-=-").append(Component.newline());
         for (int i = 1; i<=players.size(); i++) {
             DeathStat stat = players.get(i-1);
@@ -123,7 +120,7 @@ public class MessageFactory {
         else {
             backBtn = backBtn
                     .color(TextColor.color(255,215,0))
-                    .clickEvent(ClickEvent.runCommand("topdeaths "+(page-1)));
+                    .clickEvent(ClickEvent.runCommand("/topdeaths "+(page-1)));
         }
 
         TextComponent pages = Component
@@ -137,7 +134,7 @@ public class MessageFactory {
         else {
             nextBtn = nextBtn
                     .color(TextColor.color(255,215,0))
-                    .clickEvent(ClickEvent.runCommand("topdeaths "+(page+1)));
+                    .clickEvent(ClickEvent.runCommand("/topdeaths "+(page+1)));
         }
 
         message = message.append(
