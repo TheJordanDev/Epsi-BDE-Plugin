@@ -13,8 +13,8 @@ public class CScoreboardScheduler extends BukkitRunnable {
     public void run() {
         running = true;
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (CScoreboardManager.instance.playersScheduler.containsKey(player.getUniqueId())) {
-                CScoreboardManager.instance.playersScheduler.get(player.getUniqueId()).refresh();
+            if (CScoreboardManager.instance.playersScoreboards.containsKey(player.getUniqueId())) {
+                CScoreboardManager.instance.playersScoreboards.get(player.getUniqueId()).refresh();
             }
         }
     }

@@ -1,13 +1,20 @@
 package fr.thejordan.epsi.object;
 
 import org.bukkit.Location;
+import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 
 import fr.thejordan.epsi.helpers.Utils;
 import fr.thejordan.noflicker.CScoreboard;
 import net.kyori.adventure.text.Component;
+import org.bukkit.scoreboard.Criteria;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.RenderType;
 
 public class MainScoreboard extends CScoreboard {
+
+    private final Objective deathCount;
 
     public static int currentTitle = 0;
     public static String[] titles = {
@@ -17,6 +24,11 @@ public class MainScoreboard extends CScoreboard {
 
     public MainScoreboard(Player player) {
         super("epsi_scoreboard", "", player);
+        deathCount = (board().getObjective("deathCount") == null) ?
+                board().registerNewObjective("deathCount", Criteria.DUMMY, Component.text("Morts"), RenderType.INTEGER) :
+                board().getObjective("deathCount");
+        if (deathCount != null)
+            deathCount.setDisplaySlot(DisplaySlot.PLAYER_LIST);
     }
 
     @Override
@@ -37,6 +49,10 @@ public class MainScoreboard extends CScoreboard {
 
         this.setVariable("player_ping", player.getPing()+"ms", 0);
         objective().displayName(Component.text(titles[currentTitle]));
+    }
+
+    public void refreshDeathCount(Player deadPerson) {
+        deathCount.getScoreFor(deadPerson).setScore(deadPerson.getStatistic(Statistic.DEATHS));
     }
 
     @Override

@@ -8,6 +8,7 @@ import fr.thejordan.epsi.helpers.MessageFactory;
 import fr.thejordan.epsi.object.MainScoreboard;
 import fr.thejordan.epsi.object.VanishManager;
 import fr.thejordan.epsi.scheduler.DlScheduler;
+import fr.thejordan.noflicker.CScoreboard;
 import fr.thejordan.noflicker.CScoreboardManager;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
@@ -54,10 +55,15 @@ public class PlayerListener implements Listener {
         else
             event.joinMessage(MessageFactory.joinMessage(player));
         
-        if (player.isOp()) return;
-        VanishManager.instance().getVanished().forEach(
-            (vU)->player.hidePlayer(Epsi.instance(),Bukkit.getPlayer(vU))
-        );
+        if (!player.isOp()) {
+            VanishManager.instance().getVanished().forEach(
+                    (vU) -> player.hidePlayer(Epsi.instance(), Bukkit.getPlayer(vU))
+            );
+        }
+        for (CScoreboard scoreboard : CScoreboardManager.instance.playersScoreboards.values()) {
+            if (!(scoreboard instanceof MainScoreboard mainScoreboard)) continue;
+            mainScoreboard.refreshDeathCount(player);
+        }
     }
 
     @EventHandler
@@ -111,6 +117,11 @@ public class PlayerListener implements Listener {
     public void onDeath(PlayerDeathEvent event) {
         Player player = event.getPlayer();
         World world = player.getWorld();
+
+        for (CScoreboard scoreboard : CScoreboardManager.instance.playersScoreboards.values()) {
+            if (!(scoreboard instanceof MainScoreboard mainScoreboard)) continue;
+            mainScoreboard.refreshDeathCount(player);
+        }
 
         boolean isDeadByVoidCheh = (world.getEnvironment() == Environment.THE_END && player.getLocation().getY() < 0D);
         if (event.getKeepInventory()) return;

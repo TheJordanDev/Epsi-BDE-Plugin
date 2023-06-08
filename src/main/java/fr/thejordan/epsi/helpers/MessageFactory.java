@@ -1,14 +1,18 @@
 package fr.thejordan.epsi.helpers;
 
 
+import fr.thejordan.epsi.object.DeathStat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextColor;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+
+import java.util.List;
 
 public class MessageFactory {
 
@@ -94,5 +98,54 @@ public class MessageFactory {
             );
     }
 
+    public static TextComponent deathTop(List<DeathStat> players, int current_page) {
+        int MAX_PAGE = (int) Math.ceil((double) Bukkit.getOfflinePlayers().length/5);
+        TextComponent message = Component.text("§7§l-=-=-=-=- §e§lTOP MORTS §7§l-=-=-=-=-").append(Component.newline());
+        for (int i = 1; i<=players.size(); i++) {
+            DeathStat stat = players.get(i-1);
+            int top = ((current_page-1)*5)+i;
+            TextComponent playerLine = Component.text(top+". ");
+            if (top == 1) playerLine = playerLine.color(TextColor.color(255,202,9));
+            else if (top == 2) playerLine = playerLine.color(TextColor.color(182,181,184));
+            else if (top == 3) playerLine = playerLine.color(TextColor.color(186,164,69));
+            else playerLine = playerLine.color(TextColor.color(131,130,133));
+            message = message
+                    .append(playerLine)
+                    .append(Component.text(stat.displayName+" "+stat.deaths))
+                    .append(Component.newline());
+        }
+        TextComponent footer = Component.text("§7§l-=-=-=-=-=-§r").append(Component.space());
+
+        TextComponent backBtn = Component.text("≪");
+        if (current_page <= 1) backBtn = backBtn.color(TextColor.color(105,105,105));
+        else {
+            backBtn = backBtn
+                    .color(TextColor.color(255,215,0))
+                    .clickEvent(ClickEvent.runCommand("topdeaths "+(current_page-1)));
+        }
+
+        TextComponent pages = Component
+                .empty().color(TextColor.color(64,64,64))
+                .append(Component.text(current_page))
+                .append(Component.text("/"))
+                .append(Component.text(MAX_PAGE));
+
+        TextComponent nextBtn = Component.text("≫");
+        if (current_page >= 1) nextBtn = nextBtn.color(TextColor.color(105,105,105));
+        else {
+            nextBtn = nextBtn
+                    .color(TextColor.color(255,215,0))
+                    .clickEvent(ClickEvent.runCommand("topdeaths "+(current_page+1)));
+        }
+
+        message = message.append(
+                footer
+                        .append(backBtn).append(Component.space())
+                        .append(pages).append(Component.space())
+                        .append(nextBtn).append(Component.space())
+                        .append(Component.text("§7§l-=-=-=-=-=-§r"))
+        );
+        return message;
+    }
 
 }

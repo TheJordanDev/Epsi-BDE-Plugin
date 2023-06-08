@@ -27,6 +27,8 @@ commands:
   setvillage:
     description: "Set Village"
     permission: epsi.village
+  topdeath:
+    description: "TopDeaths"
 permissions:
   epsi.*:
     description: Toutes les permissions du plugin

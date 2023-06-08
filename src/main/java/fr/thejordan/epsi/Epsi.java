@@ -60,7 +60,9 @@ public final class Epsi extends JavaPlugin {
                 VanishManager.instance().vanish(player, true);
                 player.getPersistentDataContainer().remove(Keys.isVanished);
             }
-            CScoreboardManager.instance.send(new MainScoreboard(player));
+            MainScoreboard playerScoreboard = new MainScoreboard(player);
+            CScoreboardManager.instance.send(playerScoreboard);
+            Bukkit.getOnlinePlayers().forEach(playerScoreboard::refreshDeathCount);
         }
         loadConfig();
         this.expireScheduler = new TpaExpireScheduler();
@@ -87,6 +89,7 @@ public final class Epsi extends JavaPlugin {
         new HomeCommand().register(this);
         new GriefingCommand().register(this);
         new VillageCommand().register(this);
+        new DeathsCommand().register(this);
         
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
     }

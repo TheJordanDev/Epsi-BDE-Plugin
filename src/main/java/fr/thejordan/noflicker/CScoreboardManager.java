@@ -15,7 +15,7 @@ public class CScoreboardManager implements Listener {
     public static CScoreboardManager instance;
 
     public final CScoreboardScheduler scheduler;
-    public final Map<UUID, CScoreboard> playersScheduler = new HashMap<>();
+    public final Map<UUID, CScoreboard> playersScoreboards = new HashMap<>();
 
     public CScoreboardManager(JavaPlugin plugin) {
         instance = this;
@@ -26,13 +26,13 @@ public class CScoreboardManager implements Listener {
 
     public <T extends CScoreboard> void send(T scoreboard) {
         scoreboard.player.setScoreboard(scoreboard.board());
-        playersScheduler.put(scoreboard.player.getUniqueId(),scoreboard);
+        playersScoreboards.put(scoreboard.player.getUniqueId(),scoreboard);
     }
 
     @EventHandler
     public void onLeave(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        playersScheduler.remove(player.getUniqueId());
+        playersScoreboards.remove(player.getUniqueId());
     }
 
 }
