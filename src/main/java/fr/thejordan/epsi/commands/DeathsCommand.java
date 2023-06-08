@@ -33,7 +33,7 @@ public class DeathsCommand implements CommandExecutor, TabCompleter {
         } else if (args.length == 1) {
             int wanted = Utils.intFromString(args[0]);
             int page = (wanted < 1) ? 1 : (wanted > MAX_PAGE) ? MAX_PAGE : wanted;
-            List<DeathStat> players = getTopPage(wanted);
+            List<DeathStat> players = getTopPage(page);
             sender.sendMessage(MessageFactory.deathTop(players, page, MAX_PAGE));
         }
         return false;

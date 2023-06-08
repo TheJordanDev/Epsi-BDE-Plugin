@@ -120,7 +120,7 @@ public class MessageFactory {
         else {
             backBtn = backBtn
                     .color(TextColor.color(255,215,0))
-                    .clickEvent(ClickEvent.runCommand("/topdeaths "+(page-1)));
+                    .clickEvent(ClickEvent.runCommand("/topdeath "+(page-1)));
         }
 
         TextComponent pages = Component
@@ -134,7 +134,7 @@ public class MessageFactory {
         else {
             nextBtn = nextBtn
                     .color(TextColor.color(255,215,0))
-                    .clickEvent(ClickEvent.runCommand("/topdeaths "+(page+1)));
+                    .clickEvent(ClickEvent.runCommand("/topdeath "+(page+1)));
         }
 
         message = message.append(
