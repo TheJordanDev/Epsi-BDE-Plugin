@@ -45,7 +45,7 @@ public class DeathsCommand implements CommandExecutor, TabCompleter {
     private List<DeathStat> getTopPage(int page) {
         return Arrays.stream(Bukkit.getOfflinePlayers())
                 .map((off)-> new DeathStat(off.getName(),off.getStatistic(Statistic.DEATHS)))
-                .sorted(Comparator.comparingInt(stat -> stat.deaths))
+                .sorted((a,b)->b.deaths - a.deaths)
                 .skip((page-1) * 5L)
                 .limit(5)
                 .toList();

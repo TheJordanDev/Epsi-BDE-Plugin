@@ -60,6 +60,10 @@ public class PlayerListener implements Listener {
                     (vU) -> player.hidePlayer(Epsi.instance(), Bukkit.getPlayer(vU))
             );
         }
+        for (Player other : Bukkit.getOnlinePlayers()) {
+            MainScoreboard scoreboard = (MainScoreboard) CScoreboardManager.instance.playersScoreboards.get(player.getUniqueId());
+            scoreboard.refreshDeathCount(other);
+        }
         for (CScoreboard scoreboard : CScoreboardManager.instance.playersScoreboards.values()) {
             if (!(scoreboard instanceof MainScoreboard mainScoreboard)) continue;
             mainScoreboard.refreshDeathCount(player);
